@@ -170,7 +170,7 @@ def handler(event):
 
         return {
             'status': 'success',
-            'spaces_url': spaces_url
+            'audio_url': spaces_url
         }
 
     except (FileNotFoundError, ValueError, RuntimeError, ClientError) as e:
