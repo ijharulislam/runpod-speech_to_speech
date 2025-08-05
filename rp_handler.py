@@ -134,7 +134,7 @@ def handler(event):
         source_audio_url = input_data.get('source_audio_url')
         target_audio_url = input_data.get('target_audio_url')
         bucket_name = input_data.get('bucket_name')
-        object_key_prefix = input_data.get('object_key_prefix', "")
+        object_key_prefix = input_data.get('object_key_prefix', "voicetovoice")
 
         if not source_audio_url or not target_audio_url:
             raise ValueError(
