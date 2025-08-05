@@ -16,7 +16,7 @@ import tempfile
 import torch
 
 
-def upload_to_s3(audio_data: bytes, bucket_name: str = None, object_key_prefix: str = "", file_extension: str = ".wav") -> str:
+def upload_to_s3(audio_data: bytes, bucket_name: str = None, object_key_prefix: str = "voicetovoice", file_extension: str = ".wav") -> str:
     if not audio_data:
         raise ValueError("audio_data is required")
 
@@ -57,7 +57,7 @@ def upload_to_s3(audio_data: bytes, bucket_name: str = None, object_key_prefix: 
 
     content_type = mimetypes.guess_type(f"file{file_extension}")[
         0] or f"audio/{file_extension.lstrip('.')}"
-    object_key = f"{object_key_prefix}{uuid4()}{file_extension}" if object_key_prefix else f"{uuid4()}{file_extension}"
+    object_key = f"{object_key_prefix}/{uuid4()}{file_extension}" if object_key_prefix else f"{uuid4()}{file_extension}"
 
     try:
         s3_client.put_object(
