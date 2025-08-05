@@ -127,6 +127,18 @@ def voice_conversion(
         )
 
 
+def call_webhook(url: str, data: dict):
+    """
+    Call a webhook with the given data.
+    """
+    try:
+        response = requests.post(url, json=data)
+        print(f"Webhook response: {response.json()}")
+        return response.json()
+    except Exception as e:
+        print(f"Error calling webhook: {str(e)}")
+
+
 def handler(event):
     print(f"Worker Start")
     try:
@@ -135,6 +147,9 @@ def handler(event):
         target_audio_url = input_data.get('target_audio_url')
         bucket_name = input_data.get('bucket_name')
         object_key_prefix = input_data.get('object_key_prefix', "voicetovoice")
+        userid = input_data.get('userid')
+        webhook_url = input_data.get(
+            'webhook_url', 'https://voicekiller.com/api/conversion/webhook/')
 
         if not source_audio_url or not target_audio_url:
             raise ValueError(
@@ -167,6 +182,13 @@ def handler(event):
             bucket_name=bucket_name,
             object_key_prefix=object_key_prefix
         )
+
+        data = {
+            "userid": userid,
+            "audio_url": spaces_url
+        }
+
+        call_webhook(webhook_url, data)
 
         return {
             'status': 'success',
