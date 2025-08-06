@@ -151,6 +151,8 @@ def handler(event):
         webhook_url = input_data.get(
             'webhook_url', 'https://voicekiller.com/api/conversion/webhook/')
 
+        filename = input_data.get('filename')
+
         if not source_audio_url or not target_audio_url:
             raise ValueError(
                 "Both source_audio_url and target_audio_url are required")
@@ -185,7 +187,8 @@ def handler(event):
 
         data = {
             "userid": userid,
-            "audio_url": spaces_url
+            "audio_url": spaces_url,
+            "filename": filename
         }
 
         call_webhook(webhook_url, data)
